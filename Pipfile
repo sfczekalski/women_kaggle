@@ -12,6 +12,7 @@ numpy="*"
 matplotlib="*"
 seaborn="*"
 networkx="*"
+tqdm="*"
 
 [packages]
 click = "*"
