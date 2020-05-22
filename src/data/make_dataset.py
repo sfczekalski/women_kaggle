@@ -5,7 +5,7 @@ from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 
 # preprocessing
-from preprocess import preprocess_data, preprocess_skills_data
+from preprocess import preprocess_data, preprocess_skills_data, preprocess_sociodemographic_data
 
 data_dir = '../data/'
 
@@ -18,6 +18,7 @@ def main():
     logger.info('making final data set from raw data')
     preprocess_data(data_dir)
     preprocess_skills_data(data_dir)
+    preprocess_sociodemographic_data(data_dir)
 
 
 if __name__ == '__main__':

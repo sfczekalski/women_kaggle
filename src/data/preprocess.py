@@ -2,6 +2,7 @@ import pandas as pd
 from pandas.api.types import CategoricalDtype
 import numpy as np
 import warnings
+from sklearn.preprocessing import OneHotEncoder
 
 
 def preprocess_data(data_folder):
@@ -17,6 +18,32 @@ def preprocess_data(data_folder):
     df.loc[df[country_col]=='Iran, Islamic Republic of...', country_col] = 'Iran'
 
     df.to_csv(data_folder + 'processed/data.csv', index=False)
+
+
+def preprocess_sociodemographic_data(data_folder):
+    soc_questions = ['Q2', "Q20_Part_1", "Q20_Part_2", "Q20_Part_3", "Q20_Part_4", "Q20_Part_5", "Q20_Part_6", "Q20_Part_7",
+                    "Q20_Part_8", "Q20_Part_9", "Q20_Part_10"]
+    df_soc = pd.read_csv('../data/raw/multiple_choice_responses.csv')
+
+    df_soc = df_soc.loc[:, soc_questions]
+    # Questions as column names
+    df_soc.columns = df_soc.iloc[0]
+    df_soc.drop(df_soc.index[0], inplace=True)
+    df_soc = df_soc.reset_index(drop=True)
+
+    df_soc = df_soc[df_soc['What is your gender? - Selected Choice'] == 'Female']
+    df_soc.drop(columns=['What is your gender? - Selected Choice'], inplace=True)
+
+    df_soc[~df_soc.isnull()] = 1
+    df_soc[df_soc.isnull()] = 0
+    df_soc.to_csv(data_folder + 'processed/soc_data.csv', index=False)
+
+
+    '''encoder = OneHotEncoder(sparse=False)
+    np_soc_1hot = encoder.fit_transform(df_soc)
+    columns = np.concatenate(encoder.categories_)
+    df_soc_1hot = pd.DataFrame(np_soc_1hot, columns=columns)
+    df_soc_1hot.to_csv(data_folder + 'processed/soc_data.csv', index=False)'''
 
 
 def preprocess_skills_data(data_folder):
