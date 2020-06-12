@@ -31,7 +31,7 @@ In order to replicate the analysis you need to follow this steps:
     ```bash
     pipenv install
     ```
-5. Run the notebook `Analysis.ipynb` in `notebooks` directory
+5. Run the notebook `Analysis.ipynb` in `notebooks` directory. In first steps, the data will be downloaded and preprocessed.
 
 Project Organization
 ------------
