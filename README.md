@@ -1,7 +1,37 @@
 women_kaggle
 ==============================
 
-Analysis of women community on Kaggle
+Analysis of women community on Kaggle using statistical plots and graph representation of users and their skills.
+
+
+# Setup
+In order to replicate the analysis you need to follow this steps:
+1. You need to have a Kaggle account. If you don't, go to https://www.kaggle.com/ and signup
+2. Get the credentials (API token) to download the data:
+    - go to the 'My Account' tab of your user profile (https://www.kaggle.com/<username>/account) 
+    - select 'Create API Token'
+    - place this file in the location ~/.kaggle/kaggle.json (on Windows in the location C:\Users\<Windows-username>\.kaggle\kaggle.json)
+    - run this line to restrict usage of the token to your current user:
+    ```bash
+    chmod 600 /home/<username>/.kaggle/kaggle.json 
+    ```
+3. Install pipenv
+    ```bash
+    pip install --user pipenv
+    ```
+    Or if you are on macOs:
+    ```bash
+    brew install pipenv
+    ```
+3. Create pipenv environment for the project if one doesn’t already exist
+    ```bash
+    pipenv shell
+    ```
+4. Install dependencies from Pipfile
+    ```bash
+    pipenv install
+    ```
+5. Run the notebook `Analysis.ipynb` in `notebooks` directory
 
 Project Organization
 ------------
