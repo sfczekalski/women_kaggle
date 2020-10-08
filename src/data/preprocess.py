@@ -5,25 +5,28 @@ import warnings
 from sklearn.preprocessing import OneHotEncoder
 
 
-def preprocess_data(data_folder):
+def preprocess_data():
     warnings.filterwarnings('ignore')
-    df = pd.read_csv(data_folder + 'raw/multiple_choice_responses.csv', header=1)
+    df = pd.read_csv('./data/raw/multiple_choice_responses.csv', header=1)
     _ = df.pop('Duration (in seconds)')
 
-    df.rename(columns={'What is your gender? - Selected Choice': 'Gender'}, inplace=True)
-    df.rename(columns={'Select the title most similar to your current role (or most recent title if retired): - Selected Choice': 'Job title'}, inplace=True)
+    df.rename(
+        columns={'What is your gender? - Selected Choice': 'Gender'}, inplace=True)
+    df.rename(columns={
+              'Select the title most similar to your current role (or most recent title if retired): - Selected Choice': 'Job title'}, inplace=True)
     country_col = 'In which country do you currently reside?'
-    df.loc[df[country_col]=='United States of America', country_col] = 'USA'
-    df.loc[df[country_col]=='United Kingdom of Great Britain and Northern Ireland', country_col] = 'UK'
-    df.loc[df[country_col]=='Iran, Islamic Republic of...', country_col] = 'Iran'
+    df.loc[df[country_col] == 'United States of America', country_col] = 'USA'
+    df.loc[df[country_col] ==
+           'United Kingdom of Great Britain and Northern Ireland', country_col] = 'UK'
+    df.loc[df[country_col] == 'Iran, Islamic Republic of...', country_col] = 'Iran'
 
-    df.to_csv(data_folder + 'processed/data.csv', index=False)
+    df.to_csv('./data/processed/data.csv', index=False)
 
 
-def preprocess_sociodemographic_data(data_folder):
+def preprocess_sociodemographic_data():
     soc_questions = ['Q2', "Q20_Part_1", "Q20_Part_2", "Q20_Part_3", "Q20_Part_4", "Q20_Part_5", "Q20_Part_6", "Q20_Part_7",
-                    "Q20_Part_8", "Q20_Part_9", "Q20_Part_10"]
-    df_soc = pd.read_csv('../data/raw/multiple_choice_responses.csv')
+                     "Q20_Part_8", "Q20_Part_9", "Q20_Part_10"]
+    df_soc = pd.read_csv('./data/raw/multiple_choice_responses.csv')
 
     df_soc = df_soc.loc[:, soc_questions]
     # Questions as column names
@@ -32,12 +35,12 @@ def preprocess_sociodemographic_data(data_folder):
     df_soc = df_soc.reset_index(drop=True)
 
     df_soc = df_soc[df_soc['What is your gender? - Selected Choice'] == 'Female']
-    df_soc.drop(columns=['What is your gender? - Selected Choice'], inplace=True)
+    df_soc.drop(
+        columns=['What is your gender? - Selected Choice'], inplace=True)
 
     df_soc[~df_soc.isnull()] = 1
     df_soc[df_soc.isnull()] = 0
-    df_soc.to_csv(data_folder + 'processed/soc_data.csv', index=False)
-
+    df_soc.to_csv('./data/processed/soc_data.csv', index=False)
 
     '''encoder = OneHotEncoder(sparse=False)
     np_soc_1hot = encoder.fit_transform(df_soc)
@@ -46,7 +49,7 @@ def preprocess_sociodemographic_data(data_folder):
     df_soc_1hot.to_csv(data_folder + 'processed/soc_data.csv', index=False)'''
 
 
-def preprocess_skills_data(data_folder):
+def preprocess_skills_data():
     # Create subsets of variable dedicated to skills, activities, programming languages etc.
     ide_usage = ["Q16_Part_1", "Q16_Part_2", "Q16_Part_3", "Q16_Part_4", "Q16_Part_5", "Q16_Part_6", "Q16_Part_7",
                  "Q16_Part_8", "Q16_Part_9", "Q16_Part_10"]
@@ -58,8 +61,10 @@ def preprocess_skills_data(data_folder):
                     "Q20_Part_8", "Q20_Part_9", "Q20_Part_10"]
     algo_usage = ["Q24_Part_1", "Q24_Part_2", "Q24_Part_3", "Q24_Part_4", "Q24_Part_5", "Q24_Part_6", "Q24_Part_7",
                   "Q24_Part_8", "Q24_Part_9", "Q24_Part_10"]
-    ml_tools_usage = ["Q25_Part_1", "Q25_Part_2", "Q25_Part_3", "Q25_Part_4", "Q25_Part_5", "Q25_Part_6"]
-    cv_usage = ["Q26_Part_1", "Q26_Part_2", "Q26_Part_3", "Q26_Part_4", "Q26_Part_5"]
+    ml_tools_usage = ["Q25_Part_1", "Q25_Part_2",
+                      "Q25_Part_3", "Q25_Part_4", "Q25_Part_5", "Q25_Part_6"]
+    cv_usage = ["Q26_Part_1", "Q26_Part_2",
+                "Q26_Part_3", "Q26_Part_4", "Q26_Part_5"]
     nlp_usage = ["Q27_Part_1", "Q27_Part_2", "Q27_Part_3", "Q27_Part_4"]
     ml_frameworks_usage = ["Q28_Part_1", "Q28_Part_2", "Q28_Part_3", "Q28_Part_4", "Q28_Part_5", "Q28_Part_6",
                            "Q28_Part_7", "Q28_Part_8", "Q28_Part_9", "Q28_Part_10"]
@@ -79,7 +84,7 @@ def preprocess_skills_data(data_folder):
     gender_question = ["Q2"]
 
     # Dataframe with skills related questions
-    df_skills = pd.read_csv('../data/raw/multiple_choice_responses.csv')
+    df_skills = pd.read_csv('./data/raw/multiple_choice_responses.csv')
     skills = [gender_question, ide_usage, notebook_usage, language_usage, visual_usage, cloud_products_usage, algo_usage,
               ml_tools_usage, cv_usage, nlp_usage, ml_frameworks_usage, cloud_platforms_usage,
               big_data_products_usage, ml_products_usage, automl_tools, db_tools]
@@ -92,7 +97,8 @@ def preprocess_skills_data(data_folder):
 
     # Analize only female kagglers
     df_skills = df_skills[df_skills['What is your gender? - Selected Choice'] == 'Female']
-    df_skills.drop(columns=['What is your gender? - Selected Choice'], inplace=True)
+    df_skills.drop(
+        columns=['What is your gender? - Selected Choice'], inplace=True)
 
     # Shorten column names - only a skill name
     for c in df_skills.columns:
@@ -104,4 +110,4 @@ def preprocess_skills_data(data_folder):
     df_skills[df_skills.isnull()] = 0
     df_skills = df_skills.astype(np.int8)
 
-    df_skills.to_csv(data_folder + 'processed/skills_data.csv', index=False)
+    df_skills.to_csv('./data/processed/skills_data.csv', index=False)

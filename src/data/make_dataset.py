@@ -7,18 +7,19 @@ from dotenv import find_dotenv, load_dotenv
 # preprocessing
 from preprocess import preprocess_data, preprocess_skills_data, preprocess_sociodemographic_data
 
-data_dir = '../data/'
 
-
-def main():
+@click.command()
+@click.argument('input_filepath', type=click.Path(exists=True), default="data/raw/")
+@click.argument('output_filepath', type=click.Path(), default="data/processed")
+def main(input_filepath, output_filepath):
     """ Runs data processing scripts to turn raw data from (../raw) into
         cleaned data ready to be analyzed (saved in ../processed).
     """
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
-    preprocess_data(data_dir)
-    preprocess_skills_data(data_dir)
-    preprocess_sociodemographic_data(data_dir)
+    preprocess_data()
+    preprocess_skills_data()
+    preprocess_sociodemographic_data()
 
 
 if __name__ == '__main__':
