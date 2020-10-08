@@ -1,0 +1,14 @@
+name: women-kaggle
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8
+  - click
+  - networkx
+  - pandas
+  - seaborn
+  - matplotlib
+  - flake8
+  - coverage
+  - python-dotenv
